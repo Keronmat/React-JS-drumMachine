@@ -9,6 +9,7 @@ This is a React app that you can use just for fun. Its a fun way way to learn to
 - Moving properties through the DOM tree other other components.
 - Adding classes and css styles dynamically.
 - Maintaining clean code by seprating UI components from logical components.
+- Modifying JSON objects by making a copy of the state then use setState to update.
 
 ## Contributing
 

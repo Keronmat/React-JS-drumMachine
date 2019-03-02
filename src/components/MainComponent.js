@@ -12,7 +12,6 @@ export default class Main extends Component {
       buttonData: BUTTONDATA,
       isChecked: null,
       displayMessage: "",
-      playing: false,
       currentVolume: 0.8
     };
   }
@@ -46,7 +45,7 @@ export default class Main extends Component {
     } else return alert("Please turn the app on!");
   };
 
-  //plays the sound and update the playing state to true
+  //plays the sound and activate the volume function
   playSound = (url, soundName) => {
     let sound = new Audio(url);
     sound.volume = this.state.currentVolume;
@@ -64,7 +63,7 @@ export default class Main extends Component {
     }, 900);
   };
 
-  //toggle checkbox power on
+  //toggle checkbox = power on and off
 
   toggleCheckBox = () => {
     const power = this.state.isChecked;
@@ -112,7 +111,6 @@ export default class Main extends Component {
       <div className="drum-machine">
         <div className="drum-panel row">
           <TopSwitchPanel
-            playing={this.state.playing}
             getRandomColor={this.getRandomColor}
             toggleCheckBox={this.toggleCheckBox}
             isChecked={this.state.isChecked}
@@ -123,7 +121,6 @@ export default class Main extends Component {
         </div>
         <div className="drum-pads">
           <RenderSound
-            toggleData={this.toggleData}
             handleClickSound={this.handleClickSound}
             buttonData={this.state.buttonData}
             isChecked={this.state.isChecked}

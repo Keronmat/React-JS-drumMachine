@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 
-const RenderButton = ({
-  toggleData,
-  buttonData,
-  handleClickSound,
-  isChecked,
-  playing
-}) => {
+const RenderButton = ({ buttonData, handleClickSound, isChecked }) => {
   const onStyle = {
     transform: "scale(0.95)",
     boxShadow: "1px 1px 4px 4px #D81159, -1px -1px 4px 4px #FFBC42"
@@ -48,11 +42,9 @@ export default class RenderSound extends Component {
   render() {
     return (
       <RenderButton
-        toggleData={this.props.toggleData}
         buttonData={this.props.buttonData}
         handleClickSound={this.props.handleClickSound}
         isChecked={this.props.isChecked}
-        playing={this.props.playing}
         getRandomColor={this.getRandomColor}
       />
     );
