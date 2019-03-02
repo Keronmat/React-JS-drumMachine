@@ -35,7 +35,8 @@ export const BUTTONDATA = [
     id: 4,
     name: "boom",
     trigger: "G",
-    url: "/assets/audio/boom.wav",
+    url:
+      "https://github.com/Keronmat/React-JS-drumMachine/blob/master/public/assets/audio/boom.wav",
     keyCode: 71,
     playing: false
   },

@@ -2,21 +2,26 @@
   "name": "drum-machine-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://keronmat.github.io/React-JS-drumMachine",
   "dependencies": {
     "boostrap": "^2.0.0",
     "bootstrap": "^4.3.1",
+    "gh-pages": "^2.0.1",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.7",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5",
     "reactstrap": "^7.1.0",
-    "resolve": "^1.10.0"
+    "resolve": "^1.10.0",
+    "typescript": "^3.3.3333"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
