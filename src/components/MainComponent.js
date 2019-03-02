@@ -31,28 +31,18 @@ export default class Main extends Component {
     const power = this.state.isChecked;
     if (power && drumKey) {
       this.playSound(drumKey.url, drumKey.name);
-      this.setState(() => {
-        return { playing: true };
-      });
-      setTimeout(() => {
-        this.setState({ playing: false });
-      }, 200);
+      this.toggleData(drumKey.id);
     } else if (!power && drumKey) {
       alert("Please turn the app on!");
     }
   };
   //handles the sounds when use mouse click
-  handleClickSound = (url, soundName) => {
+  handleClickSound = (url, soundName, index) => {
     const power = this.state.isChecked;
     if (power) {
       this.playSound(url, soundName);
-
-      this.setState(() => {
-        return { playing: true };
-      });
-      setTimeout(() => {
-        this.setState({ playing: false });
-      }, 200);
+      console.log(index);
+      this.toggleData(index);
     } else return alert("Please turn the app on!");
   };
 
@@ -61,7 +51,6 @@ export default class Main extends Component {
     let sound = new Audio(url);
     sound.volume = this.state.currentVolume;
     sound.play();
-
     this.toggleDisplay(soundName);
   };
 
@@ -79,7 +68,6 @@ export default class Main extends Component {
 
   toggleCheckBox = () => {
     const power = this.state.isChecked;
-    console.log(this.state);
     this.setState(() => {
       return {
         isChecked: !power,
@@ -106,6 +94,19 @@ export default class Main extends Component {
     return colorValues[Math.floor(Math.random() * colorValues.length)];
   }
 
+  //change data.playing to true
+  toggleData = index => {
+    let obj = JSON.parse(JSON.stringify(this.state.buttonData));
+    obj[index].playing = true;
+    this.setState({ buttonData: obj });
+
+    setTimeout(() => {
+      obj[index].playing = false;
+      this.setState({ buttonData: obj });
+    }, 200);
+    console.log(obj);
+  };
+
   render() {
     return (
       <div className="drum-machine">
@@ -122,6 +123,7 @@ export default class Main extends Component {
         </div>
         <div className="drum-pads">
           <RenderSound
+            toggleData={this.toggleData}
             handleClickSound={this.handleClickSound}
             buttonData={this.state.buttonData}
             isChecked={this.state.isChecked}

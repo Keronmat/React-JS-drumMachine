@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 
-const RenderButton = ({ buttonData, handleClickSound, isChecked, playing }) => {
+const RenderButton = ({
+  toggleData,
+  buttonData,
+  handleClickSound,
+  isChecked,
+  playing
+}) => {
   const onStyle = {
     transform: "scale(0.95)",
     boxShadow: "1px 1px 4px 4px #D81159, -1px -1px 4px 4px #FFBC42"
@@ -14,13 +20,13 @@ const RenderButton = ({ buttonData, handleClickSound, isChecked, playing }) => {
       <div
         key={a.id}
         className="outer-pad"
-        style={playing ? onStyle : offStyle}
+        style={a.playing ? onStyle : offStyle}
       >
         <div
           className="inner-pad"
           data-key={a.keyCode}
           onClick={() => {
-            handleClickSound(a.url, a.name);
+            handleClickSound(a.url, a.name, a.id);
           }}
         >
           <kbd>{a.trigger}</kbd>
@@ -42,6 +48,7 @@ export default class RenderSound extends Component {
   render() {
     return (
       <RenderButton
+        toggleData={this.props.toggleData}
         buttonData={this.props.buttonData}
         handleClickSound={this.props.handleClickSound}
         isChecked={this.props.isChecked}
