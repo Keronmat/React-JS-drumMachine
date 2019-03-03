@@ -3,13 +3,6 @@ import TopSwitchPanel from "./TopSwitchPanelComponent";
 import { BUTTONDATA } from "../shared/data";
 import RenderSound from "./RenderSound";
 import Volume from "./VolumeComponent";
-import { connect } from "react-redux";
-
-const mapStateToProps = state => {
-  return {
-    buttonData: state.buttonData
-  };
-};
 
 class Main extends Component {
   constructor(props) {
@@ -121,7 +114,7 @@ class Main extends Component {
             getRandomColor={this.getRandomColor}
             toggleCheckBox={this.toggleCheckBox}
             isChecked={this.state.isChecked}
-            buttonData={this.props.buttonData}
+            buttonData={this.state.buttonData}
             toggleDisplay={this.toggleDisplay}
             displayMessage={this.state.displayMessage}
           />
@@ -129,7 +122,7 @@ class Main extends Component {
         <div className="drum-pads">
           <RenderSound
             handleClickSound={this.handleClickSound}
-            buttonData={this.props.buttonData}
+            buttonData={this.state.buttonData}
             isChecked={this.state.isChecked}
             getRandomColor={this.getRandomColor}
           />
@@ -142,4 +135,4 @@ class Main extends Component {
     );
   }
 }
-export default connect(mapStateToProps)(Main);
+export default Main;
