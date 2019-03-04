@@ -5,7 +5,6 @@ import { CustomInput, FormGroup, Label } from "reactstrap";
 export default function TopSwitchPanel({
   power,
   displayMessage,
-  toggleDisplay,
   getRandomColor,
   playing,
   handlePower
@@ -29,7 +28,6 @@ export default function TopSwitchPanel({
       </div>
       <Display
         displayMessage={displayMessage}
-        toggleDisplay={toggleDisplay}
         power={power}
         getRandomColor={getRandomColor}
         playing={playing}

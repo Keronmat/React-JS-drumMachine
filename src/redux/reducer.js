@@ -1,7 +1,7 @@
 import * as ActionTypes from "./ActionTypes";
 
 const Reducer = (
-  state = { power: false, volume: 0.5, display: "FCC Drum Machine" },
+  state = { power: false, volume: 0.5, display: "React Drum Machine" },
   action
 ) => {
   switch (action.type) {
@@ -16,7 +16,10 @@ const Reducer = (
         volume: action.volume
       };
     case ActionTypes.DISPLAY:
-      return Object.assign({}, state, { display: action.display });
+      return {
+        ...state,
+        display: action.display
+      };
 
     default:
       return state;

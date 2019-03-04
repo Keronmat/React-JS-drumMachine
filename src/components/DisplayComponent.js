@@ -1,12 +1,6 @@
 import React from "react";
 
-const Display = ({
-  playing,
-  getRandomColor,
-  displayMessage,
-  toggleDisplay,
-  power
-}) => {
+const Display = ({ playing, getRandomColor, displayMessage, power }) => {
   const playingStyles = {
     backgroundColor: `${getRandomColor()}`
   };
@@ -15,7 +9,6 @@ const Display = ({
   };
   return (
     <div
-      onChange={() => toggleDisplay()}
       style={playing ? playingStyles : offStyles}
       className=" col-8  display"
     >

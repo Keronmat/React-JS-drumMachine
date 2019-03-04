@@ -4,13 +4,17 @@ import { BUTTONDATA } from "../shared/data";
 import RenderSound from "./RenderSound";
 import Volume from "./VolumeComponent";
 import { connect } from "react-redux";
-import { togglePower } from "../redux/ActionCreators";
-import { toggleVolume } from "../redux/ActionCreators";
+import {
+  togglePower,
+  toggleVolume,
+  toggleDisplay
+} from "../redux/ActionCreators";
 
 const mapStateToProps = state => {
   return {
     power: state.power,
-    volume: state.volume
+    volume: state.volume,
+    display: state.display
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -20,6 +24,9 @@ const mapDispatchToProps = dispatch => {
     },
     toggleVolume: newVolume => {
       dispatch(toggleVolume(newVolume));
+    },
+    toggleDisplay: newDisplay => {
+      dispatch(toggleDisplay(newDisplay));
     }
   };
 };
@@ -29,8 +36,7 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      buttonData: BUTTONDATA,
-      displayMessage: ""
+      buttonData: BUTTONDATA
     };
   }
 
@@ -73,17 +79,15 @@ class Main extends Component {
     let sound = new Audio(url);
     sound.volume = this.props.volume;
     sound.play();
-    this.toggleDisplay(soundName);
+    this.handleDisplay(soundName);
   };
 
   //changes message on the display
-  toggleDisplay = soundName => {
-    this.setState(() => {
-      return { displayMessage: soundName };
-    });
+  handleDisplay = soundName => {
+    this.props.toggleDisplay(soundName);
     setTimeout(() => {
-      this.setState({ displayMessage: "" });
-    }, 900);
+      this.props.toggleDisplay("");
+    }, 1000);
   };
 
   //changes the Volume
@@ -94,7 +98,7 @@ class Main extends Component {
 
     if (power) {
       this.props.toggleVolume(newVolume);
-      this.toggleDisplay(message);
+      this.handleDisplay(message);
     }
   };
   //change display background color
@@ -123,11 +127,9 @@ class Main extends Component {
           <TopSwitchPanel
             handlePower={this.handlePower}
             getRandomColor={this.getRandomColor}
-            toggleCheckBox={this.toggleCheckBox}
             power={this.props.power}
             buttonData={this.state.buttonData}
-            toggleDisplay={this.toggleDisplay}
-            displayMessage={this.state.displayMessage}
+            displayMessage={this.props.display}
           />
         </div>
         <div className="drum-pads">

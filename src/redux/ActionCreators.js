@@ -12,3 +12,9 @@ export const toggleVolume = newVolume => {
     volume: newVolume
   };
 };
+export const toggleDisplay = newDisplay => {
+  return {
+    type: ActionTypes.DISPLAY,
+    display: newDisplay
+  };
+};
