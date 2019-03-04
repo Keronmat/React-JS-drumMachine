@@ -3,12 +3,12 @@ import Display from "./DisplayComponent";
 import { CustomInput, FormGroup, Label } from "reactstrap";
 
 export default function TopSwitchPanel({
-  isChecked,
-  toggleCheckBox,
+  power,
   displayMessage,
   toggleDisplay,
   getRandomColor,
-  playing
+  playing,
+  handlePower
 }) {
   return (
     <React.Fragment>
@@ -20,8 +20,8 @@ export default function TopSwitchPanel({
               type="switch"
               name="customSwitch"
               id="exampleCustomSwitch"
-              label={!isChecked ? "On" : "Off"}
-              onChange={() => toggleCheckBox()}
+              label={!power ? "On" : "Off"}
+              onChange={() => handlePower()}
               defaultChecked={false}
             />
           </div>
@@ -30,7 +30,7 @@ export default function TopSwitchPanel({
       <Display
         displayMessage={displayMessage}
         toggleDisplay={toggleDisplay}
-        isChecked={isChecked}
+        power={power}
         getRandomColor={getRandomColor}
         playing={playing}
       />

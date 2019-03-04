@@ -3,6 +3,26 @@ import TopSwitchPanel from "./TopSwitchPanelComponent";
 import { BUTTONDATA } from "../shared/data";
 import RenderSound from "./RenderSound";
 import Volume from "./VolumeComponent";
+import { connect } from "react-redux";
+import { togglePower } from "../redux/ActionCreators";
+import { toggleVolume } from "../redux/ActionCreators";
+
+const mapStateToProps = state => {
+  return {
+    power: state.power,
+    volume: state.volume
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    togglePower: currentState => {
+      dispatch(togglePower(currentState));
+    },
+    toggleVolume: newVolume => {
+      dispatch(toggleVolume(newVolume));
+    }
+  };
+};
 
 class Main extends Component {
   constructor(props) {
@@ -10,9 +30,7 @@ class Main extends Component {
 
     this.state = {
       buttonData: BUTTONDATA,
-      isChecked: null,
-      displayMessage: "",
-      currentVolume: 0.8
+      displayMessage: ""
     };
   }
 
@@ -22,12 +40,17 @@ class Main extends Component {
   componentWillUnmount() {
     document.EventListener("keydown", this.handleKeydownSound);
   }
+  //handles power, turns machine on and off
+  handlePower = () => {
+    this.props.togglePower(this.props.power);
+  };
+
   //handles the sounds when use keyboard
   handleKeydownSound = event => {
     const drumKey = this.state.buttonData.find(
       obj => obj.keyCode === event.keyCode
     );
-    const power = this.state.isChecked;
+    const power = this.props.power;
     if (power && drumKey) {
       this.playSound(drumKey.url, drumKey.name);
       this.toggleData(drumKey.id);
@@ -37,10 +60,10 @@ class Main extends Component {
   };
   //handles the sounds when use mouse click
   handleClickSound = (url, soundName, index) => {
-    const power = this.state.isChecked;
+    const power = this.props.power;
     if (power) {
       this.playSound(url, soundName);
-      console.log(index);
+      //console.log(index);
       this.toggleData(index);
     } else return alert("Please turn the app on!");
   };
@@ -48,7 +71,7 @@ class Main extends Component {
   //plays the sound and activate the volume function
   playSound = (url, soundName) => {
     let sound = new Audio(url);
-    sound.volume = this.state.currentVolume;
+    sound.volume = this.props.volume;
     sound.play();
     this.toggleDisplay(soundName);
   };
@@ -63,27 +86,14 @@ class Main extends Component {
     }, 900);
   };
 
-  //toggle checkbox = power on and off
-
-  toggleCheckBox = () => {
-    const power = this.state.isChecked;
-    this.setState(() => {
-      return {
-        isChecked: !power,
-        displayMessage: !power === true ? "Welcome" : null
-      };
-    });
-  };
   //changes the Volume
-  changeVolume = event => {
-    const power = this.state.isChecked;
-    const newVolume = event.target.value / 100;
-    const message = "Volume: " + event.target.value;
+  handleVolume = event => {
+    const power = this.props.power;
+    const newVolume = event.target.value;
+    const message = "Volume: " + event.target.value * 100;
 
     if (power) {
-      this.setState(() => {
-        return { currentVolume: newVolume };
-      });
+      this.props.toggleVolume(newVolume);
       this.toggleDisplay(message);
     }
   };
@@ -111,9 +121,10 @@ class Main extends Component {
       <div className="drum-machine">
         <div className="drum-panel row">
           <TopSwitchPanel
+            handlePower={this.handlePower}
             getRandomColor={this.getRandomColor}
             toggleCheckBox={this.toggleCheckBox}
-            isChecked={this.state.isChecked}
+            power={this.props.power}
             buttonData={this.state.buttonData}
             toggleDisplay={this.toggleDisplay}
             displayMessage={this.state.displayMessage}
@@ -123,16 +134,19 @@ class Main extends Component {
           <RenderSound
             handleClickSound={this.handleClickSound}
             buttonData={this.state.buttonData}
-            isChecked={this.state.isChecked}
+            power={this.props.power}
             getRandomColor={this.getRandomColor}
           />
         </div>
         <Volume
-          changeVolume={this.changeVolume}
-          currentVolume={this.state.currentVolume}
+          handleVolume={this.handleVolume}
+          currentVolume={this.props.volume}
         />
       </div>
     );
   }
 }
-export default Main;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);

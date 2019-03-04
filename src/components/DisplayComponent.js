@@ -5,13 +5,13 @@ const Display = ({
   getRandomColor,
   displayMessage,
   toggleDisplay,
-  isChecked
+  power
 }) => {
   const playingStyles = {
     backgroundColor: `${getRandomColor()}`
   };
   const offStyles = {
-    backgroundColor: `${isChecked ? "var(--ltRed)" : "var(--dkRed)"}`
+    backgroundColor: `${power ? "var(--ltRed)" : "var(--dkRed)"}`
   };
   return (
     <div

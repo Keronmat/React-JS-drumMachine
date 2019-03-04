@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 
-const RenderButton = ({ buttonData, handleClickSound, isChecked }) => {
+const RenderButton = ({ buttonData, handleClickSound, power }) => {
   const onStyle = {
     transform: "scale(0.95)",
     boxShadow: "1px 1px 4px 4px #D81159, -1px -1px 4px 4px #FFBC42"
   };
-  const offStyle = isChecked
+  const offStyle = power
     ? { backgroundColor: "var(--ltRed)" }
     : { backgroundColor: "var(--dkRed)" };
 
@@ -44,7 +44,7 @@ export default class RenderSound extends Component {
       <RenderButton
         buttonData={this.props.buttonData}
         handleClickSound={this.props.handleClickSound}
-        isChecked={this.props.isChecked}
+        power={this.props.power}
         getRandomColor={this.getRandomColor}
       />
     );

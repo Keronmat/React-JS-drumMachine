@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Volume({ currentVolume, changeVolume }) {
+export default function Volume({ currentVolume, handleVolume }) {
   return (
     <div className="row">
       <div className="col-sm volume ">
@@ -9,10 +9,11 @@ export default function Volume({ currentVolume, changeVolume }) {
           className="slider"
           defaultValue={currentVolume}
           type="range"
-          min="1"
-          max="100"
+          min="0"
+          max="1"
+          step="0.01"
           name="volume"
-          onChange={event => changeVolume(event)}
+          onChange={event => handleVolume(event)}
         />
       </div>
       <div className="speakers col-sm align-middle">
