@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 
-const RenderButton = ({ buttonData, handleClickSound, power }) => {
+const RenderButton = props => {
   const onStyle = {
     transform: "scale(0.95)",
     boxShadow: "1px 1px 4px 4px #D81159, -1px -1px 4px 4px #FFBC42"
   };
-  const offStyle = power
+  const offStyle = props.power.power
     ? { backgroundColor: "var(--ltRed)" }
     : { backgroundColor: "var(--dkRed)" };
 
-  const data = buttonData.map(a => {
+  const data = props.buttonData.map(a => {
     return (
       <div
         key={a.id}
@@ -20,7 +20,7 @@ const RenderButton = ({ buttonData, handleClickSound, power }) => {
           className="inner-pad"
           data-key={a.keyCode}
           onClick={() => {
-            handleClickSound(a.url, a.name, a.id);
+            props.handleClickSound(a.url, a.name, a.id);
           }}
         >
           <kbd>{a.trigger}</kbd>

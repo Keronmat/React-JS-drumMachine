@@ -11,6 +11,7 @@ import {
 } from "../redux/ActionCreators";
 
 const mapStateToProps = state => {
+  console.log(state.power, state.volume, state.display);
   return {
     power: state.power,
     volume: state.volume,
@@ -48,7 +49,7 @@ class Main extends Component {
   }
   //handles power, turns machine on and off
   handlePower = () => {
-    this.props.togglePower(this.props.power);
+    this.props.togglePower(this.props.power.power);
   };
 
   //handles the sounds when use keyboard
@@ -66,7 +67,7 @@ class Main extends Component {
   };
   //handles the sounds when use mouse click
   handleClickSound = (url, soundName, index) => {
-    const power = this.props.power;
+    const power = this.props.power.power;
     if (power) {
       this.playSound(url, soundName);
       //console.log(index);
@@ -77,7 +78,7 @@ class Main extends Component {
   //plays the sound and activate the volume function
   playSound = (url, soundName) => {
     let sound = new Audio(url);
-    sound.volume = this.props.volume;
+    sound.volume = this.props.volume.volume;
     sound.play();
     this.handleDisplay(soundName);
   };
@@ -129,7 +130,7 @@ class Main extends Component {
             getRandomColor={this.getRandomColor}
             power={this.props.power}
             buttonData={this.state.buttonData}
-            displayMessage={this.props.display}
+            display={this.props.display}
           />
         </div>
         <div className="drum-pads">

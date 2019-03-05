@@ -1,18 +1,18 @@
 import React from "react";
 
-const Display = ({ playing, getRandomColor, displayMessage, power }) => {
+const Display = props => {
   const playingStyles = {
-    backgroundColor: `${getRandomColor()}`
+    backgroundColor: `${props.getRandomColor()}`
   };
   const offStyles = {
-    backgroundColor: `${power ? "var(--ltRed)" : "var(--dkRed)"}`
+    backgroundColor: `${props.power.power ? "var(--ltRed)" : "var(--dkRed)"}`
   };
   return (
     <div
-      style={playing ? playingStyles : offStyles}
+      style={props.playing ? playingStyles : offStyles}
       className=" col-8  display"
     >
-      {displayMessage}
+      {props.display.display}
     </div>
   );
 };

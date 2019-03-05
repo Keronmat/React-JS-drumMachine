@@ -2,13 +2,7 @@ import React from "react";
 import Display from "./DisplayComponent";
 import { CustomInput, FormGroup, Label } from "reactstrap";
 
-export default function TopSwitchPanel({
-  power,
-  displayMessage,
-  getRandomColor,
-  playing,
-  handlePower
-}) {
+export default function TopSwitchPanel(props) {
   return (
     <React.Fragment>
       <div className="col-4 power">
@@ -19,18 +13,18 @@ export default function TopSwitchPanel({
               type="switch"
               name="customSwitch"
               id="exampleCustomSwitch"
-              label={!power ? "On" : "Off"}
-              onChange={() => handlePower()}
+              label={!props.power.power ? "On" : "Off"}
+              onChange={props.handlePower}
               defaultChecked={false}
             />
           </div>
         </FormGroup>
       </div>
       <Display
-        displayMessage={displayMessage}
-        power={power}
-        getRandomColor={getRandomColor}
-        playing={playing}
+        display={props.display}
+        power={props.power}
+        getRandomColor={props.getRandomColor}
+        playing={props.playing}
       />
     </React.Fragment>
   );
