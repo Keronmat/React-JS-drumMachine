@@ -7,15 +7,18 @@ import { connect } from "react-redux";
 import {
   togglePower,
   toggleVolume,
-  toggleDisplay
+  toggleDisplay,
+  fetchData
 } from "../redux/ActionCreators";
 
 const mapStateToProps = state => {
-  console.log(state.power, state.volume, state.display);
+  //console.log(state.dataObj);
   return {
     power: state.power,
     volume: state.volume,
-    display: state.display
+    display: state.display,
+    playing: state.playing,
+    dataObj: state.dataObj
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -28,6 +31,9 @@ const mapDispatchToProps = dispatch => {
     },
     toggleDisplay: newDisplay => {
       dispatch(toggleDisplay(newDisplay));
+    },
+    fetchData: () => {
+      dispatch(fetchData());
     }
   };
 };
@@ -36,12 +42,11 @@ class Main extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      buttonData: BUTTONDATA
-    };
+    this.state = {};
   }
 
   componentDidMount() {
+    this.props.fetchData();
     document.addEventListener("keydown", this.handleKeydownSound);
   }
   componentWillUnmount() {
@@ -54,7 +59,8 @@ class Main extends Component {
 
   //handles the sounds when use keyboard
   handleKeydownSound = event => {
-    const drumKey = this.state.buttonData.find(
+    console.log(this.props.data);
+    const drumKey = this.props.dataObj.data.find(
       obj => obj.keyCode === event.keyCode
     );
     const power = this.props.power;
@@ -109,8 +115,8 @@ class Main extends Component {
   }
 
   //change data.playing to true
-  toggleData = index => {
-    let obj = JSON.parse(JSON.stringify(this.state.buttonData));
+  /* toggleData = index => {
+    let obj = JSON.parse(JSON.stringify(this.props.dataObj.data));
     obj[index].playing = true;
     this.setState({ buttonData: obj });
 
@@ -119,7 +125,7 @@ class Main extends Component {
       this.setState({ buttonData: obj });
     }, 200);
     console.log(obj);
-  };
+  };*/
 
   render() {
     return (
@@ -129,14 +135,14 @@ class Main extends Component {
             handlePower={this.handlePower}
             getRandomColor={this.getRandomColor}
             power={this.props.power}
-            buttonData={this.state.buttonData}
+            dataObj={this.props.dataObj.data}
             display={this.props.display}
           />
         </div>
         <div className="drum-pads">
           <RenderSound
             handleClickSound={this.handleClickSound}
-            buttonData={this.state.buttonData}
+            dataObj={this.props.dataObj.data}
             power={this.props.power}
             getRandomColor={this.getRandomColor}
           />

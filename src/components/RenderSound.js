@@ -9,7 +9,7 @@ const RenderButton = props => {
     ? { backgroundColor: "var(--ltRed)" }
     : { backgroundColor: "var(--dkRed)" };
 
-  const data = props.buttonData.map(a => {
+  const data = props.dataObj.map(a => {
     return (
       <div
         key={a.id}
@@ -42,7 +42,7 @@ export default class RenderSound extends Component {
   render() {
     return (
       <RenderButton
-        buttonData={this.props.buttonData}
+        dataObj={this.props.dataObj}
         handleClickSound={this.props.handleClickSound}
         power={this.props.power}
         getRandomColor={this.getRandomColor}
