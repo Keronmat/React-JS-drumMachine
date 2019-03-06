@@ -25,8 +25,28 @@ export const fetchData = () => dispatch => {
   dispatch(dataLoading(true));
 
   return fetch(baseUrl + "BUTTONDATA")
+    .then(
+      response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+
+          error.response = response;
+          console.log(error);
+          throw error;
+        }
+      },
+      error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+      }
+    )
     .then(response => response.json())
-    .then(data => dispatch(addData(data)));
+    .then(data => dispatch(addData(data)))
+    .catch(error => dispatch(dataFailed(error.message)));
 };
 
 export const dataLoading = () => ({
