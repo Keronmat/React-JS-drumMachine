@@ -21,7 +21,6 @@ export default function TopSwitchPanel(props) {
         </FormGroup>
       </div>
       <Display
-        activeId={this.props.activeId}
         display={props.display}
         power={props.power}
         getRandomColor={props.getRandomColor}

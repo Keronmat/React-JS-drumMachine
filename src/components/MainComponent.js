@@ -10,7 +10,8 @@ import {
   togglePower,
   toggleVolume,
   toggleDisplay,
-  fetchData
+  fetchData,
+  toggleIsPlaying
 } from "../redux/ActionCreators";
 
 const mapStateToProps = state => {
@@ -19,7 +20,8 @@ const mapStateToProps = state => {
     power: state.power,
     volume: state.volume,
     display: state.display,
-    dataObj: state.dataObj
+    dataObj: state.dataObj,
+    playing: state.playing
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -29,6 +31,9 @@ const mapDispatchToProps = dispatch => {
     },
     toggleVolume: newVolume => {
       dispatch(toggleVolume(newVolume));
+    },
+    toggleIsPlaying: id => {
+      dispatch(toggleIsPlaying(id));
     },
     toggleDisplay: newDisplay => {
       dispatch(toggleDisplay(newDisplay));
@@ -116,11 +121,11 @@ class Main extends Component {
     let colorValues = ["#D81159", "#218380", "#73D2DE", "#FFBC42", "#8F2D56"];
     return colorValues[Math.floor(Math.random() * colorValues.length)];
   }
-
+  //takes in an id from handle click and pass it to toggle is playing
   handleBorderColor = id => {
-    this.setState(() => ({ activeId: id }));
+    this.props.toggleIsPlaying(id);
     setTimeout(() => {
-      this.setState({ activeId: null });
+      this.props.toggleIsPlaying(null);
     }, 200);
   };
 
@@ -166,6 +171,7 @@ class Main extends Component {
               dataObj={this.props.dataObj.data}
               display={this.props.display}
               activeId={this.state.activeId}
+              playing={this.props.playing.playing}
             />
           </div>
           <div className="drum-pads">
@@ -175,6 +181,8 @@ class Main extends Component {
               power={this.props.power}
               getRandomColor={this.getRandomColor}
               activeId={this.state.activeId}
+              playing={this.props.playing.playing}
+              handleBorderColor={this.handleBorderColor}
             />
           </div>
           <Volume

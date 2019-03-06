@@ -9,7 +9,7 @@ const Display = props => {
   };
   return (
     <div
-      style={props.playing ? playingStyles : offStyles}
+      style={props.playing !== null ? playingStyles : offStyles}
       className=" col-8  display"
     >
       {props.display.display}

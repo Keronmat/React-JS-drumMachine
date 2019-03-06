@@ -70,3 +70,7 @@ export const addData = dataObj => ({
   type: ActionTypes.ADD_DATA,
   payload: dataObj
 });
+export const toggleIsPlaying = id => ({
+  type: ActionTypes.IS_PLAYING,
+  payload: id
+});
