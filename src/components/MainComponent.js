@@ -69,7 +69,7 @@ class Main extends Component {
 
     const power = this.props.power;
     if (power && drumKey) {
-      this.playSound(`${baseUrl + drumKey.url}`, drumKey.name);
+      this.playSound(baseUrl + drumKey.url, drumKey.name);
       this.togglePlaying();
       // this.toggleData(drumKey.id);
     } else if (!power && drumKey) {
