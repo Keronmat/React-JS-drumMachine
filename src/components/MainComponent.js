@@ -11,11 +11,10 @@ import {
   toggleVolume,
   toggleDisplay,
   fetchData,
-  toggleIsPlaying
+  toggleIsPlaying //received an active id
 } from "../redux/ActionCreators";
 
 const mapStateToProps = state => {
-  //console.log(state.playing);
   return {
     power: state.power,
     volume: state.volume,
@@ -47,14 +46,9 @@ const mapDispatchToProps = dispatch => {
 class Main extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      activeId: null
-    };
   }
 
   componentDidMount() {
-    // console.log(this.props.dataObj.playing.data.playing);
     this.props.fetchData();
     document.addEventListener("keydown", this.handleKeydownSound);
   }
@@ -66,7 +60,7 @@ class Main extends Component {
     this.props.togglePower(this.props.power.power);
   };
 
-  //handles the sounds when use keyboard
+  //handles the sounds and effects when use keyboard button
   handleKeydownSound = event => {
     const drumKey = this.props.dataObj.data.find(
       obj => obj.keyCode === event.keyCode
@@ -80,7 +74,7 @@ class Main extends Component {
       alert("Please turn the app on!");
     }
   };
-  //handles the sounds when use mouse click
+  //handles the sounds and effects when use mouse click
   handleClickSound = (url, soundName, id) => {
     const power = this.props.power.power;
     if (power) {
@@ -122,26 +116,13 @@ class Main extends Component {
     return colorValues[Math.floor(Math.random() * colorValues.length)];
   }
   //takes in an id from handle click and pass it to toggle is playing
+  // this uses the active id to change border for active button
   handleBorderColor = id => {
     this.props.toggleIsPlaying(id);
     setTimeout(() => {
       this.props.toggleIsPlaying(null);
     }, 200);
   };
-
-  //change data.playing to true
-  /*toggleData = index => {
-    let obj = JSON.parse(JSON.stringify(this.props.dataObj.data));
-    obj[index].playing;
-    this.props.fetchData({ buttonData: obj });
-    //this.setState();
-
-    setTimeout(() => {
-      obj[index].playing = false;
-      this.props.fetchData({ buttonData: obj });
-    }, 200);
-    console.log(obj);
-  };*/
 
   render() {
     if (this.props.dataObj.isLoading) {
@@ -170,7 +151,6 @@ class Main extends Component {
               power={this.props.power}
               dataObj={this.props.dataObj.data}
               display={this.props.display}
-              activeId={this.state.activeId}
               playing={this.props.playing.playing}
             />
           </div>
@@ -180,7 +160,6 @@ class Main extends Component {
               dataObj={this.props.dataObj.data}
               power={this.props.power}
               getRandomColor={this.getRandomColor}
-              activeId={this.state.activeId}
               playing={this.props.playing.playing}
               handleBorderColor={this.handleBorderColor}
             />
