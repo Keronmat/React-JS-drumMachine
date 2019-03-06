@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { baseUrl } from "../shared/baseUrl";
 
 const RenderButton = props => {
   const onStyle = {
@@ -14,13 +15,13 @@ const RenderButton = props => {
       <div
         key={a.id}
         className="outer-pad"
-        style={a.playing ? onStyle : offStyle}
+        style={props.playing ? onStyle : offStyle}
       >
         <div
           className="inner-pad"
           data-key={a.keyCode}
           onClick={() => {
-            props.handleClickSound(a.url, a.name, a.id);
+            props.handleClickSound(`${baseUrl + a.url}`, a.name, a.id);
           }}
         >
           <kbd>{a.trigger}</kbd>
@@ -46,6 +47,7 @@ export default class RenderSound extends Component {
         handleClickSound={this.props.handleClickSound}
         power={this.props.power}
         getRandomColor={this.getRandomColor}
+        playing={this.props.playing}
       />
     );
   }

@@ -5,6 +5,7 @@ import { GetData } from "./getDataReducer";
 import PowerReducer from "./powerReducer";
 import DisplayReducer from "./displayReducer";
 import VolumeReducer from "./volumeReducer";
+import PlayingReducer from "./playingReducer";
 
 export const ConfigureStore = () => {
   const store = createStore(
@@ -12,7 +13,8 @@ export const ConfigureStore = () => {
       dataObj: GetData,
       power: PowerReducer,
       display: DisplayReducer,
-      volume: VolumeReducer
+      volume: VolumeReducer,
+      playing: PlayingReducer
     }),
     applyMiddleware(thunk, logger)
   );

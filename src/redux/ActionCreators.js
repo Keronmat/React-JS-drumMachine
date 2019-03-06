@@ -1,4 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
+import { baseUrl } from "../shared/baseUrl";
 import { BUTTONDATA } from "../shared/data";
 
 export const togglePower = currentState => {
@@ -23,9 +24,9 @@ export const toggleDisplay = newDisplay => {
 export const fetchData = () => dispatch => {
   dispatch(dataLoading(true));
 
-  setTimeout(() => {
-    dispatch(addData(BUTTONDATA));
-  }, 2000);
+  return fetch(baseUrl + "BUTTONDATA")
+    .then(response => response.json())
+    .then(data => dispatch(addData(data)));
 };
 
 export const dataLoading = () => ({

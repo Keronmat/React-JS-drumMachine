@@ -3,6 +3,8 @@ import TopSwitchPanel from "./TopSwitchPanelComponent";
 import { BUTTONDATA } from "../shared/data";
 import RenderSound from "./RenderSound";
 import Volume from "./VolumeComponent";
+import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 import { connect } from "react-redux";
 import {
   togglePower,
@@ -12,12 +14,11 @@ import {
 } from "../redux/ActionCreators";
 
 const mapStateToProps = state => {
-  //console.log(state.dataObj);
+  //console.log(state.playing);
   return {
     power: state.power,
     volume: state.volume,
     display: state.display,
-    playing: state.playing,
     dataObj: state.dataObj
   };
 };
@@ -42,10 +43,13 @@ class Main extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      playing: false
+    };
   }
 
   componentDidMount() {
+    // console.log(this.props.dataObj.playing.data.playing);
     this.props.fetchData();
     document.addEventListener("keydown", this.handleKeydownSound);
   }
@@ -59,14 +63,15 @@ class Main extends Component {
 
   //handles the sounds when use keyboard
   handleKeydownSound = event => {
-    console.log(this.props.data);
     const drumKey = this.props.dataObj.data.find(
       obj => obj.keyCode === event.keyCode
     );
+
     const power = this.props.power;
     if (power && drumKey) {
-      this.playSound(drumKey.url, drumKey.name);
-      this.toggleData(drumKey.id);
+      this.playSound(`${baseUrl + drumKey.url}`, drumKey.name);
+      this.togglePlaying();
+      // this.toggleData(drumKey.id);
     } else if (!power && drumKey) {
       alert("Please turn the app on!");
     }
@@ -76,8 +81,8 @@ class Main extends Component {
     const power = this.props.power.power;
     if (power) {
       this.playSound(url, soundName);
-      //console.log(index);
-      this.toggleData(index);
+      this.togglePlaying();
+      //  this.toggleData(index);
     } else return alert("Please turn the app on!");
   };
 
@@ -113,46 +118,71 @@ class Main extends Component {
     let colorValues = ["#D81159", "#218380", "#73D2DE", "#FFBC42", "#8F2D56"];
     return colorValues[Math.floor(Math.random() * colorValues.length)];
   }
-
+  togglePlaying = () => {
+    this.setState({ playing: true });
+    setTimeout(() => {
+      this.setState({ playing: false });
+    }, 200);
+  };
   //change data.playing to true
-  /* toggleData = index => {
+  /*toggleData = index => {
     let obj = JSON.parse(JSON.stringify(this.props.dataObj.data));
-    obj[index].playing = true;
-    this.setState({ buttonData: obj });
+    obj[index].playing;
+    this.props.fetchData({ buttonData: obj });
+    //this.setState();
 
     setTimeout(() => {
       obj[index].playing = false;
-      this.setState({ buttonData: obj });
+      this.props.fetchData({ buttonData: obj });
     }, 200);
     console.log(obj);
   };*/
 
   render() {
-    return (
-      <div className="drum-machine">
-        <div className="drum-panel row">
-          <TopSwitchPanel
-            handlePower={this.handlePower}
-            getRandomColor={this.getRandomColor}
-            power={this.props.power}
-            dataObj={this.props.dataObj.data}
-            display={this.props.display}
+    if (this.props.dataObj.isLoading) {
+      return (
+        <div className="container">
+          <div className="row">
+            <Loading />
+          </div>
+        </div>
+      );
+    } else if (this.props.dataObj.errMess) {
+      return (
+        <div className="container">
+          <div className="row">
+            <h4>{this.props.dataObj.errMess}</h4>
+          </div>
+        </div>
+      );
+    } else if (this.props.dataObj.data != null)
+      return (
+        <div className="drum-machine">
+          <div className="drum-panel row">
+            <TopSwitchPanel
+              handlePower={this.handlePower}
+              getRandomColor={this.getRandomColor}
+              power={this.props.power}
+              dataObj={this.props.dataObj.data}
+              display={this.props.display}
+              playing={this.state.playing}
+            />
+          </div>
+          <div className="drum-pads">
+            <RenderSound
+              handleClickSound={this.handleClickSound}
+              dataObj={this.props.dataObj.data}
+              power={this.props.power}
+              getRandomColor={this.getRandomColor}
+              playing={this.state.playing}
+            />
+          </div>
+          <Volume
+            handleVolume={this.handleVolume}
+            currentVolume={this.props.volume}
           />
         </div>
-        <div className="drum-pads">
-          <RenderSound
-            handleClickSound={this.handleClickSound}
-            dataObj={this.props.dataObj.data}
-            power={this.props.power}
-            getRandomColor={this.getRandomColor}
-          />
-        </div>
-        <Volume
-          handleVolume={this.handleVolume}
-          currentVolume={this.props.volume}
-        />
-      </div>
-    );
+      );
   }
 }
 export default connect(
