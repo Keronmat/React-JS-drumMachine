@@ -15,7 +15,7 @@ const RenderButton = props => {
       <div
         key={a.id}
         className="outer-pad"
-        style={props.playing ? onStyle : offStyle}
+        style={props.activeId === a.id ? onStyle : offStyle}
       >
         <div
           className="inner-pad"
@@ -36,13 +36,16 @@ const RenderButton = props => {
 export default class RenderSound extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
+    this.state = {
+      activeId: null
+    };
   }
 
   render() {
     return (
       <RenderButton
+        // handleBorderColor={this.props.handleBorderColor}
+        activeId={this.props.activeId}
         dataObj={this.props.dataObj}
         handleClickSound={this.props.handleClickSound}
         power={this.props.power}

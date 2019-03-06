@@ -20,7 +20,15 @@ export const toggleDisplay = newDisplay => {
     payload: newDisplay
   };
 };
+export const fetchData = () => dispatch => {
+  dispatch(dataLoading(true));
 
+  setTimeout(() => {
+    dispatch(addData(BUTTONDATA));
+  }, 2000);
+};
+
+/* to be used only if getting data from server
 export const fetchData = () => dispatch => {
   dispatch(dataLoading(true));
 
@@ -48,7 +56,7 @@ export const fetchData = () => dispatch => {
     .then(data => dispatch(addData(data)))
     .catch(error => dispatch(dataFailed(error.message)));
 };
-
+*/
 export const dataLoading = () => ({
   type: ActionTypes.DATA_LOADING
 });

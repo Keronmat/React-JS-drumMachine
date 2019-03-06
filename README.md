@@ -12,7 +12,7 @@ This is a React app that you can use just for fun. Its a fun way way to learn to
 - Modifying JSON objects by making a copy of the state then use setState to update.
 - How to use redux to manage react state.
 - How to incorporate redux-thunk, redux-logger and middlerware in to react and redux.
-- using cross-fetch to fetch data from json-server
+- using cross-fetch to fetch data from json-server (had to return to original code since github shouldn't be used for this reason)
 
 ## Contributing
 

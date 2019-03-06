@@ -44,7 +44,7 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      playing: false
+      activeId: null
     };
   }
 
@@ -66,23 +66,21 @@ class Main extends Component {
     const drumKey = this.props.dataObj.data.find(
       obj => obj.keyCode === event.keyCode
     );
-
     const power = this.props.power;
+
     if (power && drumKey) {
       this.playSound(baseUrl + drumKey.url, drumKey.name);
-      this.togglePlaying();
-      // this.toggleData(drumKey.id);
+      this.handleBorderColor(drumKey.id);
     } else if (!power && drumKey) {
       alert("Please turn the app on!");
     }
   };
   //handles the sounds when use mouse click
-  handleClickSound = (url, soundName, index) => {
+  handleClickSound = (url, soundName, id) => {
     const power = this.props.power.power;
     if (power) {
       this.playSound(url, soundName);
-      this.togglePlaying();
-      //  this.toggleData(index);
+      this.handleBorderColor(id);
     } else return alert("Please turn the app on!");
   };
 
@@ -118,12 +116,14 @@ class Main extends Component {
     let colorValues = ["#D81159", "#218380", "#73D2DE", "#FFBC42", "#8F2D56"];
     return colorValues[Math.floor(Math.random() * colorValues.length)];
   }
-  togglePlaying = () => {
-    this.setState({ playing: true });
+
+  handleBorderColor = id => {
+    this.setState(() => ({ activeId: id }));
     setTimeout(() => {
-      this.setState({ playing: false });
+      this.setState({ activeId: null });
     }, 200);
   };
+
   //change data.playing to true
   /*toggleData = index => {
     let obj = JSON.parse(JSON.stringify(this.props.dataObj.data));
@@ -165,7 +165,7 @@ class Main extends Component {
               power={this.props.power}
               dataObj={this.props.dataObj.data}
               display={this.props.display}
-              playing={this.state.playing}
+              activeId={this.state.activeId}
             />
           </div>
           <div className="drum-pads">
@@ -174,7 +174,7 @@ class Main extends Component {
               dataObj={this.props.dataObj.data}
               power={this.props.power}
               getRandomColor={this.getRandomColor}
-              playing={this.state.playing}
+              activeId={this.state.activeId}
             />
           </div>
           <Volume
